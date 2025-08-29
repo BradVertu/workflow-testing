@@ -22,6 +22,8 @@ jobs:
             const runs = await github.rest.actions.listWorkflowRuns({
               owner: context.repo.owner,
               repo: context.repo.repo,
+              workflow_id: 'test-pipine.yaml',
+              branch: 'main',
               status: 'in_progress',
               per_page: 2
             });
@@ -29,12 +31,14 @@ jobs:
             const runsComplete = await github.rest.actions.listWorkflowRuns({
               owner: context.repo.owner,
               repo: context.repo.repo,
+              workflow_id: 'test-pipine.yaml',
+              branch: 'main',
               status: 'completed',
               per_page: 2
             });
 
             core.info('All runs:', runs);
-            core.info('All runs completed:', runsComplete);
+            core.info('All runs:', runsComplete);
 
 
 
