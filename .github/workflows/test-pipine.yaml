@@ -1,0 +1,38 @@
+name: test-pipine
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check_previous_job_start_time:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check check_previous_job_start_time
+        id: check_previous_job_start_time
+        uses: actions/github-script@v7
+        env:
+          workflow-initiator: ${{ github.event.workflow_run.actor }}
+        with:
+          script: |
+            const runs = await github.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'test-pipine.yaml',
+              branch: 'main',
+              status: 'in_progress',
+              per_page: 2
+            });
+
+            const previousRun = runs.data.workflow_runs.find(run => run.id !== context.runId);
+
+            if (previousRun) {
+              core.setOutput('previous_run_start_time', previousRun.created_at);
+            } else {
+              core.setOutput('previous_run_start_time', 'No previous run found');
+            }
+
+            core.info('current_run_start_time', context.payload.workflow_run.created_at);
