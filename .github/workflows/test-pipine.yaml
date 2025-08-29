@@ -22,7 +22,7 @@ jobs:
             const runs = await github.rest.actions.listWorkflowRuns({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow-id: context.workflow,
+              workflow_id: context.workflow,
               branch: 'main',
               status: 'in_progress',
               per_page: 2
@@ -31,7 +31,7 @@ jobs:
             const runsComplete = await github.rest.actions.listWorkflowRuns({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow-id: context.workflow,
+              workflow_id: context.workflow,
               branch: 'main',
               status: 'completed',
               per_page: 2
