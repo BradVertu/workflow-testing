@@ -31,7 +31,7 @@ jobs:
             const previousRun = runs.data.workflow_runs.find(run => run.id !== context.runId);
 
             if (previousRun) {
-              core.info('Previous run found:', previousRun);
+              console.log('Previous run start time:', previousRun.created_at);
               core.setOutput('previous_run_start_time', previousRun.created_at);
             } else {
               core.setOutput('previous_run_start_time', 'No previous run found');
