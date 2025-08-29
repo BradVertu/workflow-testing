@@ -35,10 +35,8 @@ jobs:
               per_page: 2
             });
 
-            core.info('All runs:', runs);
-            core.info('All runs:', runsComplete);
-
-
+            core.info('All runs:', runs.data.workflow_runs.find(run => run.id !== context.runId));
+            core.info('All runs:', runsComplete.data.workflow_runs.find(run => run.id !== context.runId));
 
             const previousRun = runs.data.workflow_runs.find(run => run.id !== context.runId);
             core.info('Previous run found:', previousRun);
