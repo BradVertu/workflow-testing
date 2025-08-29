@@ -29,12 +29,12 @@ jobs:
             });
 
             const previousRun = runs.data.workflow_runs.find(run => run.id !== context.runId);
+            console.log('Previous run start time:', previousRun);
 
             if (previousRun) {
-              console.log('Previous run start time:', previousRun.created_at);
-              core.setOutput('previous_run_start_time', previousRun.created_at);
+              # core.setOutput('previous_run_start_time', previousRun.created_at);
             } else {
               core.setOutput('previous_run_start_time', 'No previous run found');
             }
 
-            core.info('current_run_start_time', context.payload.workflow_run.created_at);
+            # core.info('current_run_start_time', context.payload.workflow_run.created_at);
