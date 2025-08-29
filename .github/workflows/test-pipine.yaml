@@ -19,29 +19,16 @@ jobs:
         with:
           github-token: ${{ secrets.PAT }}
           script: |
-            const runs = await github.rest.actions.listWorkflowRuns({
+            const { data: runs } = await github.rest.actions.listWorkflowRuns({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: "test-pipine.yaml",
-              branch: 'main',
-              status: 'in_progress',
-              per_page: 2
+              status: 'completed'
             });
 
-            const runsComplete = await github.rest.actions.listWorkflowRuns({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: "test-pipine.yaml",
-              branch: 'main',
-              status: 'completed',
-              per_page: 2
-            });
+            core.info(`Found ${runs.workflow_runs.length} runs for this workflow.`);
 
-            core.info('All runs:', runs.data.workflow_runs.find(run => run.id !== context.runId));
-            core.info('All runs:', runsComplete.data.workflow_runs.find(run => run.id !== context.runId));
-
-            const previousRun = runs.data.workflow_runs.find(run => run.id !== context.runId);
-            core.info('Previous run found:', previousRun);
+            const previousRun = runs.workflow_runs.find(run => run.id !== context.runId);
 
             if (previousRun) {
               core.setOutput('previous_run_start_time', previousRun);
