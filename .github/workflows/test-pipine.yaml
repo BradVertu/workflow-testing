@@ -17,6 +17,7 @@ jobs:
         env:
           workflow-initiator: ${{ github.event.workflow_run.actor }}
         with:
+          github-token: ${{ secrets.PAT }}
           script: |
             const runs = await github.rest.actions.listWorkflowRuns({
               owner: context.repo.owner,
