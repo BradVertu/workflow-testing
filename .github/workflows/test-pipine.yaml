@@ -27,6 +27,7 @@ jobs:
             });
 
             core.info(`Found ${runs.workflow_runs[0].created_at} runs for this workflow.`);
+            core.info(`Found ${runs.workflow_runs[0].created_at} runs for this workflow.`);
 
             const previousRun = runs.workflow_runs.find(run => run.id !== context.runId);
 
