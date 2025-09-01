@@ -37,16 +37,10 @@ jobs:
               const currentTime = Date.now();
 
               if (currentTime - previousRunTime > fiveMinutesInMillis) {
-                core.info(`Previous run happened more than 5 minutes ago. ${currentTime}`);
+                core.info(`Previous run happened more than 5 minutes ago`);
               } else {
-                core.info(`Previous run happened within the last 5 minutes. ${currentTime}`);
-
-                octokit.actions.cancelWorkflowRun({
-                  owner,
-                  repo,
-                  run_id,
-                });
+                core.info(`Previous run happened within the last 5 minutes.`);
               }
             }
 
-            core.info(`current_run context ${context} | time now ${Date.now()} `);
+            core.info(`current_run context run it ${context.runId} | time now ${Date.now()} `);
