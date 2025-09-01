@@ -30,12 +30,32 @@ jobs:
 
             const previousRun = runs.workflow_runs.find(run => run.id !== context.runId);
 
-            core.info(`Previous run: ${previousRun ? previousRun.created_at : 'No previous run found'}`);
+
+
 
             if (previousRun) {
               core.setOutput('previous_run_start_time', previousRun);
+
+            core.info(`Previous run created at: ${previousRun ? previousRun.created_at : 'No previous run found'}`);
+
+            const previous_run_created_at = previousRun ? previousRun.created_at : 'No previous run found';
+
+            if (previousRun) {
+              const previousRunTime = new Date(previousRun.created_at).getTime();
+              const currentRunTime = new Date(context.runStartedAt).getTime();
+              const timeDifference = (currentRunTime - previousRunTime) / (1000 * 60); // Convert to minutes
+
+              if (timeDifference <= 5) {
+                core.info('Previous run happened within 5 minutes.');
+                core.setOutput('previous_run_within_5_minutes', true);
+              } else {
+                core.info('Previous run did not happen within 5 minutes.');
+                core.setOutput('previous_run_within_5_minutes', false);
+              }
+            }    
+
             } else {
               core.setOutput('previous_run_start_time', 'No previous run found');
             }
 
-            core.info('current_run_start_time', context.payload.workflow_run);
+            core.info('current_run_start_time', context.runStartedAt);
