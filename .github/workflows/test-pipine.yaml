@@ -23,11 +23,12 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: "test-pipine.yaml",
-              status: 'completed'
+              status: 'in_progress',
             });
 
             const previousRun = runs.workflow_runs.find(run => run.id !== context.runId);
             core.info(`Previous run created at: ${previousRun ? previousRun.created_at : 'No previous run found'}`);
+            core.info(`Previous run ID: ${previousRun ? previousRun.id : 'No previous run found'}`);
 
             if (previousRun) {
               const previousRunTime = new Date(previousRun.created_at).getTime();
@@ -39,8 +40,14 @@ jobs:
               if (currentTime - previousRunTime > fiveMinutesInMillis) {
                 core.info(`Previous run happened more than 5 minutes ago`);
               } else {
-                core.info(`Previous run happened within the last 5 minutes.`);
+                core.info(`Previous run happened within 5 minutes ago, restarting run.`);
+
+                github.rest.actions.cancelWorkflowRun({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  run_id: previousRun.id,
+                });
               }
             }
 
-            core.info(`current_run context run it ${context.runId} | time now ${Date.now()} `);
+            core.info(`current_run context run id ${context.runId} | time now ${Date.now()} `);
