@@ -36,6 +36,14 @@ jobs:
               const previousRunTime = new Date(previousRun.created_at).getTime();
               core.info(`Previous run time in ms: ${previousRunTime}`);
 
+              const fiveMinutesInMillis = 5 * 60 * 1000;
+              const currentTime = Date.now();
+
+              if (currentTime - previousRunTime > fiveMinutesInMillis) {
+                core.info('Previous run happened more than 5 minutes ago.');
+              } else {
+                core.info('Previous run happened within the last 5 minutes.');
+              }
             }
 
             core.info('current_run', context);
