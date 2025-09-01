@@ -40,7 +40,13 @@ jobs:
                 core.info(`Previous run happened more than 5 minutes ago. ${currentTime}`);
               } else {
                 core.info(`Previous run happened within the last 5 minutes. ${currentTime}`);
+
+                octokit.actions.cancelWorkflowRun({
+                  owner,
+                  repo,
+                  run_id,
+                });
               }
             }
 
-            core.info('current_run', context);
+            core.info(`current_run context ${context} | time now ${Date.now()} `);
