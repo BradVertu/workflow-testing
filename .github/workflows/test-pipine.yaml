@@ -42,11 +42,6 @@ jobs:
               } else {
                 core.info(`Previous run happened within 5 minutes ago, restarting run.`);
 
-                github.rest.actions.cancelWorkflowRun({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  run_id: previousRun.id,
-                });
               }
             }
 
