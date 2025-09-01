@@ -23,7 +23,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: "test-pipine.yaml",
-              status: 'in_progress',
+              status: 'completed',
             });
 
             const previousRun = runs.workflow_runs.find(run => run.id !== context.runId);
