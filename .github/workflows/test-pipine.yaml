@@ -46,3 +46,4 @@ jobs:
             }
 
             core.info(`current_run context run id ${context.runId} | time now ${Date.now()} `);
+            core.info(`current_run context run id ${context.runId} | time now ${Date.now()} `);
